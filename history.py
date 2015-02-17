@@ -11,10 +11,11 @@ import json
 
 history = {}
 file_name = 'history'
+json_file = open(file_name + '.json', 'a')
 
 # Create date objects Year, Month, Day
-start_date = dt.datetime(2012, 12,1)
-end_date = dt.datetime(2013, 3,1)
+start_date = dt.datetime(1900, 12,1)
+end_date = dt.datetime(2015, 1,1)
 
 total_days = (end_date - start_date).days + 1 #inclusive 5 days
 
@@ -94,16 +95,34 @@ def get_history(date):
 
     return his_pro2
 
+# For each date, gather history and write to json file
 for date in history:
-    print date
-    history[date] = get_history(date)
-    if history[date] != ['']:
-        print history[date]
-        print '\n'
-    else:
-        print 'Nothing happened.\n'
+    try:
+        print date
+        data = {date: get_history(date)}
+        json.dump(data, json_file)
+        json_file.write('\n')
+        if data != ['']:
+            print data
+            print '\n'
+        else:
+            print 'Nothing happened.\n'
+    except:
+        print 'Error.'
 
-# Save to json file
-f = open(file_name + '.json', 'a')
-json.dump(history, f)
-f.close()
+# Close json file
+json_file.close()
+
+# Load history from json
+# history = {}
+# file_path = 'history.json'
+# with open(file_path) as input_file:
+#     input_str = input_file.read()
+#     input_arr = input_str[:-1].split('\n')
+#     for json_str in input_arr:
+#         try:
+#             data = json.loads(json_str)
+#             history[data.keys()[0]] = data.values()[0]
+#         except:
+#             pdb.set_trace()
+
