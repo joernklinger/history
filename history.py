@@ -14,8 +14,8 @@ file_name = 'history'
 json_file = open(file_name + '.json', 'a')
 
 # Create date objects Year, Month, Day
-start_date = dt.datetime(1900, 12,1)
-end_date = dt.datetime(2015, 1,1)
+start_date = dt.datetime(1900, 1, 1)
+end_date = dt.datetime(2015, 1, 1)
 
 total_days = (end_date - start_date).days + 1 #inclusive 5 days
 
@@ -96,17 +96,14 @@ def get_history(date):
     return his_pro2
 
 # For each date, gather history and write to json file
+i = 1
 for date in history:
     try:
-        print date
         data = {date: get_history(date)}
+        print str(i) + '/' + str(len(history))
+        i = i+1
         json.dump(data, json_file)
         json_file.write('\n')
-        if data != ['']:
-            print data
-            print '\n'
-        else:
-            print 'Nothing happened.\n'
     except:
         print 'Error.'
 
